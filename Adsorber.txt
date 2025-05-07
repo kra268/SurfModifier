@@ -1,0 +1,23 @@
+from ase import Atoms
+from ase.build import surface, add_adsorbate
+from ase.visualize import view
+from ase.io import read
+import sys
+from acat.adsorption_sites import SlabAdsorptionSites
+from acat.build import add_adsorbate_to_site
+
+# Load your NiCu surface POSCAR
+slab = read('POSCAR_clean.vasp', format='vasp')
+
+# Load your adsorbate POSCAR
+adsorbate = read('POSCAR_CCH3.vasp', format='vasp')
+
+sas = SlabAdsorptionSites(slab, surface='fcc111')
+sites = sas.get_sites()
+
+print([s['site'] for s in sites])
+for st in sites:
+    if st['site'] == 'hcp':
+        add_adsorbate_to_site(slab, adsorbate=adsorbate, site=st, height=3.0)
+        break
+view(slab)
