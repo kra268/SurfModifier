@@ -36,4 +36,13 @@ def add_to_sites_separately(adsorbate, target_site='hcp', height=3.5):
     view(slab)
 
 
-add_to_sites_separately(adsorbate, target_site='hcp', height=3.5)
+def print_sites(slab):
+    sas = SlabAdsorptionSites(slab, surface='fcc111')
+    sites = sas.get_sites()
+    print(sites)
+
+
+if __name__ == "__main__":
+    # add_to_sites_separately(adsorbate, target_site='hcp', height=3.5)
+    slab = read('POSCAR_clean.vasp', format='vasp')
+    print_sites(slab)
